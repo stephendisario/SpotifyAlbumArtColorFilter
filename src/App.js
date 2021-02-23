@@ -1,29 +1,27 @@
-import React,{useEffect, useState} from 'react';
+import React from 'react';
 import {BrowserRouter as Router,Switch,Route,Redirect} from "react-router-dom";
-import {withRouter} from "react-router-dom"
 import Login from "./Containers/Login/Login"
-import Dashboard from "./Containers/Dashboard/Dashboard"
-import TrackList from './Containers/TrackList/TrackList';
+import DashboardRouter from "./Containers/Dashboard/DashboardRouter"
 
 const App = () => {
 
-  const [stateKey,setStateKey] = useState()
-
   return (
+    <>
       <Router>
         <Switch>
           <Route exact path="/">
             <Redirect to="/login"/>
           </Route>
           <Route path="/login">
-            <Login stateKey={stateKey} setStateKey={setStateKey}/>
+            <Login/>
           </Route>
           <Route path="/dashboard">
-            <Dashboard stateKey={stateKey}/>  
+            <DashboardRouter/>  
           </Route>      
-          <Route path="/tracklist" render={(props) => <TrackList {...props}/>}/> 
         </Switch>   
       </Router>
+
+    </>
   );
 }
 

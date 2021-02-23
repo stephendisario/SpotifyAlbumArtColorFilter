@@ -1,0 +1,21 @@
+.main-page {
+    background-image: linear-gradient(rgb(50, 50, 50), rgb(0, 0, 0));
+}
+
+.heading {
+    padding-top: 50px;
+    padding-left: 50px;
+}
+
+.heading-picture {
+    margin-right: 18px;
+}
+
+.track {
+    padding-left: 50px;
+    margin-bottom: 5px;
+}
+
+#titles {
+    color: white;
+}

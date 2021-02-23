@@ -1,7 +1,7 @@
 import React,{useEffect} from 'react';
 import {Typography, Button,Row,Col} from 'antd';
 
-const Login = ({stateKey, setStateKey}) => {
+const Login = () => {
 
   const {Title} = Typography;
 
@@ -11,22 +11,7 @@ const Login = ({stateKey, setStateKey}) => {
   let url = 'https://accounts.spotify.com/authorize' + '?response_type=token' + 
             '&client_id=' + encodeURIComponent(client_id) + 
             '&scope=' + encodeURIComponent(scope) + 
-            '&redirect_uri=' + encodeURIComponent(redirect_uri) +
-            '&state=' + encodeURIComponent(stateKey);
-
-  useEffect(() => {
-    setStateKey(generateRandomString(16))
-  },[])
-
-  const generateRandomString = (length) => {
-    var text = '';
-    var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-    for (var i = 0; i < length; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-  };
+            '&redirect_uri=' + encodeURIComponent(redirect_uri)
 
   return (
       <Row style={{height:"100vh", width:"100vw",backgroundColor:"black"}} justify={"center"} align={"middle"}>

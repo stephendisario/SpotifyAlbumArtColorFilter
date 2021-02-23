@@ -1,0 +1,9 @@
+#navbar {
+    background-color: black;
+    color: white;
+}
+
+#navbar-home:hover, #navbar-collage:hover {
+    color: white;
+    border-bottom: 2px solid white;
+}
