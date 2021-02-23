@@ -50,7 +50,7 @@ const TrackList = (props) => {
                         
                         return(
                             <Row key={index} style={{paddingLeft: "50px"}} align={"middle"}> 
-                                <Track key={index} albumCoverURL={track.track.album.images[2].url} name={track.track.name}/>
+                                <Track key={index} albumCoverURL={track.track.album.images[2]?.url} name={track.track.name}/>
                             </Row>
                         );
                     })}
