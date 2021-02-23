@@ -1,0 +1,38 @@
+:root {
+    --primary: #a66ad6;
+    --secondary: #000;
+    --tertiary: #fff;
+    --fullwidth: 100%;
+    display: flex; 
+}
+
+#title {
+    background-color: --primary;
+    color: var(--tertiary);
+    color: var(--primary)
+}
+
+#mainColumn {
+    background-image: linear-gradient(rgb(50, 50, 50), rgb(0, 0, 0));
+    height: 100vh;
+    width: 100vw;
+    flex-direction: column;
+    justify-content: center;
+    align-items: space-around;
+}
+
+#loginButton {
+    width: 50%;
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+#loginButton:hover {
+    border-color: var(--primary);
+    color: var(--tertiary);
+    background-color: var(--primary);
+}
+
+h1 {
+    font-size: 10em;
+}

@@ -1,6 +1,7 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import {Typography, Button,Row,Col} from 'antd';
 
+import '../../styles/LoginStyle.css'
 const Login = ({stateKey, setStateKey}) => {
 
   const {Title} = Typography;
@@ -18,6 +19,9 @@ const Login = ({stateKey, setStateKey}) => {
     setStateKey(generateRandomString(16))
   },[])
 
+  const [loginHovered, setHovered] = useState(true);
+  const toggleHover = () => setHovered(!loginHovered);
+
   const generateRandomString = (length) => {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -29,12 +33,11 @@ const Login = ({stateKey, setStateKey}) => {
   };
 
   return (
-      <Row style={{height:"100vh", width:"100vw",backgroundColor:"black"}} justify={"center"} align={"middle"}>
-        <Col style={{backgroundColor:"#1DB954", padding:"3%", borderRadius:"25px"}}>
-          <Title>Spotify Album Art Color Filter</Title>
-          <Button href={url} style={{display:"block"}}>Log In</Button>
-        </Col>
-      </Row>
+      <div id= {'mainColumn'} justify={"center"} align={"middle"}>
+          <h1 id="title">collage-ify</h1>
+          <Button id={"loginButton"} shape={'round'} href={url} style={{display:"block" }} ghost = {loginHovered ? true : false} onMouseEnter={toggleHover}
+      onMouseLeave={toggleHover}>Log In</Button>
+      </div>
   );
 }
 
