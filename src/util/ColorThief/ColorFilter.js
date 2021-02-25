@@ -9,9 +9,11 @@ const ColorFilter = ({imageArray,filteredImageArray,setFilteredImageArray}) => {
 
     const handleFilterClick = (color,event) => {
 
-        console.log(color)
         const inRange = image => {
-            return Math.abs(image.color[0] - color.rgb.r) < 20 && Math.abs(image.color[1] - color.rgb.g) < 20 && Math.abs(image.color[2] - color.rgb.b) < 20
+            //some tracks dont have album art
+            if(image.color)
+                return Math.abs(image.color[0] - color.rgb.r) < 20 && Math.abs(image.color[1] - color.rgb.g) < 20 && Math.abs(image.color[2] - color.rgb.b) < 20
+            else return false
         }
         
         setSelectedColor(color)
@@ -20,7 +22,7 @@ const ColorFilter = ({imageArray,filteredImageArray,setFilteredImageArray}) => {
     }
 
     return(
-        <Row style={{backgroundColor: selectedColor ? selectedColor.hex : null,paddingLeft:"50px",paddingBottom:"20px"}}>
+        <Row style={{backgroundColor: selectedColor ? selectedColor.hex : null,paddingLeft:"50px",paddingTop:"20px"}}>
             <ChromePicker color={selectedColor} onChange={handleFilterClick} disableAlpha={true}/>
             <Button onClick={handleFilterClick}>Filter to this color</Button>
             <Button onClick={() => {

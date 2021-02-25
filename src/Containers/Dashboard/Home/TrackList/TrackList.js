@@ -5,6 +5,7 @@ import Track from "./Track"
 import {AccessTokenContext} from "../../DashboardRouter"
 import injectWithColor from "../../../../util/ColorThief/ColorTheif"
 import ColorFilter from "../../../../util/ColorThief/ColorFilter"
+import getPlaylistTracks from "../../rest/getPlaylistTracks"
 import "../Home.css"
 
 
@@ -22,18 +23,11 @@ const TrackList = (props) => {
     const [filteredPlaylistTracks,setFilteredPlaylistTracks] = useState()
 
     useEffect(() => {
-        getPlaylistTracks()
-    },[])
-
-    const getPlaylistTracks = async () => {
-        let tracks = await axios.get(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
-            headers: {'Authorization': 'Bearer ' + accessToken},
-            params: {market: "from_token"}
+        getPlaylistTracks(accessToken,id).then(response => {
+            setPlaylistTracks(injectWithColor(response.data.items,"track"))
+            setFilteredPlaylistTracks(injectWithColor(response.data.items,"track"))
         })
-
-        setPlaylistTracks(injectWithColor(tracks.data.items,"track"))
-        setFilteredPlaylistTracks(injectWithColor(tracks.data.items,"track"))
-    }
+    },[])
 
     return (
         <>

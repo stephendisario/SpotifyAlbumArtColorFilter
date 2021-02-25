@@ -3,7 +3,7 @@ import ColorThief from "colorthief"
 const getColor = url => {
     return new Promise((resolve,reject) => {
         if (!url)
-            reject();
+            reject()
         
         let image = new Image();
         image.src = url;
@@ -20,7 +20,8 @@ const getColor = url => {
 //path to images are different for playlist arrays and track arrays
 const injectWithColor = (imageArray,listType) => {
     imageArray.map(item => {
-        getColor(listType === "playlist" ? item.images[0].url : item.track.album.images[2].url)
+        //some tracks dont have album art, so ? to prevent crash
+        getColor(listType === "playlist" ? item.images[0]?.url : item.track.album.images[2]?.url)
             .then(color => item.color = color)
     })
 
