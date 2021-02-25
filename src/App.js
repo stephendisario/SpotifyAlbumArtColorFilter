@@ -5,6 +5,8 @@ import DashboardRouter from "./Containers/Dashboard/DashboardRouter"
 
 const App = () => {
 
+  const image = new Image()
+
   return (
     <>
       <Router>

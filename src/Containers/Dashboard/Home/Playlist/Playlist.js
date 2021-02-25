@@ -15,7 +15,7 @@ const Playlist = (props) => {
                 state: { playlistCoverURL: props.playlistCoverURL, name:props.name, id: props.id}
               }
             )}/>
-            <h4 id="titles" style={{padding:"5px"}}>{props.name}</h4>
+            <h4 id="titles" style={{paddingRight:"5px"}}>{props.name}</h4>
           </div>
         </Col>
     </>

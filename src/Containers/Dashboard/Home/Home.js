@@ -1,10 +1,12 @@
 import React,{useState,useEffect, useContext} from 'react';
-import {Row, Col, Image, Typography} from 'antd';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import {Row, Col, Typography} from 'antd';
 import Playlist from "./Playlist/Playlist"
 import {AccessTokenContext} from "../DashboardRouter"
 import axios from 'axios'
 import "./Home.css"
+import { Layout, Button } from 'antd';
+import injectWithColor from "../../../util/ColorThief/ColorTheif"
+import ColorFilter from "../../../util/ColorThief/ColorFilter"
 
 const Home = () => {
 
@@ -13,15 +15,18 @@ const Home = () => {
 
     const accessToken = useContext(AccessTokenContext)
 
-    const [userData,setUserData] = useState()
+    const [userInfo,setUserInfo] = useState()
+    const [imageArray,setImageArray] = useState([])
+    const [filteredImageArray,setFilteredImageArray] = useState()
 
     //fetch user info and playlists
     useEffect(() => {
         getUsersNameAndPlaylists()
     },[])
-    
+
+    //export into its own file
     const getUsersNameAndPlaylists = async () => {
-        let userInfo = await axios.get('https://api.spotify.com/v1/me', {
+        let userNameAndPicture = await axios.get('https://api.spotify.com/v1/me', {
             headers: {'Authorization': 'Bearer ' + accessToken}
         })
 
@@ -30,25 +35,35 @@ const Home = () => {
             params: {limit: 50}
         })
 
-        setUserData(await Promise.all([userInfo.data,userPlaylists.data.items]))
+        let userData = await Promise.all([userNameAndPicture.data,userPlaylists.data.items])
+        setUserInfo(userData[0])
+
+        //dont call inject twice but make pretty
+        setImageArray(injectWithColor(userData[1],"playlist"))
+        setFilteredImageArray(injectWithColor(userData[1],"playlist"))
     }
 
     return (
 
         <>
-        {userData ?  
+        {userInfo && imageArray && filteredImageArray?
             <Layout className="layout">
                 <Content className="main-page">
+                    <ColorFilter 
+                        imageArray={imageArray} 
+                        filteredImageArray={filteredImageArray} 
+                        setFilteredImageArray={setFilteredImageArray}
+                    />
                     <Row className="heading" align={"middle"}>
                         <Col className="heading-picture">
-                            <Image width={150} src={userData[0].images[0].url} />
+                            <img width={150} src={userInfo.images[0].url} />
                         </Col>
                         <Col>
-                            <Title id="titles">{"Welcome, " + userData[0].display_name.split(" ")[0]}</Title>
+                            <Title id="titles">{"Welcome, " + userInfo.display_name.split(" ")[0]}</Title>
                         </Col>
                     </Row>
                     <Row style={{padding: "50px"}}>
-                        {userData[1].map((playlist,index) => {
+                        {filteredImageArray.map((playlist,index) => {
                             return(
                                 <Playlist key={index} playlistCoverURL={playlist.images[0]?.url} name={playlist.name} id={playlist.id}/>
                             );
@@ -57,13 +72,7 @@ const Home = () => {
                 </Content>
             </Layout>
         : null}
-
         </>
-
-        // <div className="Dashboard">
-        //     <Title>Dashboard</Title>
-        //     {userInfo ? userInfo.display_name : null}
-        // </div>
     );
 }
 
