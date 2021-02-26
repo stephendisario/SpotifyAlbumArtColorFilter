@@ -6,6 +6,7 @@ import {AccessTokenContext} from "../../DashboardRouter"
 import injectWithColor from "../../../../util/ColorThief/ColorTheif"
 import ColorFilter from "../../../../util/ColorThief/ColorFilter"
 import getPlaylistTracks from "../../rest/getPlaylistTracks"
+import getUsersLikedSongs from "../../rest/getUsersLikedSongs"
 import "../Home.css"
 
 
@@ -13,7 +14,7 @@ import axios from 'axios'
 
 const TrackList = (props) => {
 
-    const {Content} = Layout;
+    const {Content,Sider} = Layout;
     const {Title} = Typography
 
     const {playlistCoverURL,name,id} = props.location.state
@@ -22,13 +23,16 @@ const TrackList = (props) => {
     const [playlistTracks,setPlaylistTracks] = useState()
     const [filteredPlaylistTracks,setFilteredPlaylistTracks] = useState()
 
+    //liked songs is not a spotify playlist, so different API call to get tracks
     useEffect(() => {
-        getPlaylistTracks(accessToken,id).then(response => {
-            console.log(response)
-            setPlaylistTracks(injectWithColor(response.data.items,"track"))
-            setFilteredPlaylistTracks(injectWithColor(response.data.items,"track"))
-        })
+        if(name === "Liked Songs") getUsersLikedSongs(accessToken).then(response => setPlaylistTracks(injectWithColor(response,"track")))
+        else getPlaylistTracks(accessToken,id).then(response => setPlaylistTracks(injectWithColor(response.data.items,"track")))
     },[])
+
+    useEffect(() => {
+        if(playlistTracks) 
+            setFilteredPlaylistTracks(playlistTracks)
+    },[playlistTracks])
 
     return (
         <>
@@ -56,6 +60,9 @@ const TrackList = (props) => {
                                 );
                             })}
                     </Content>
+                    <Sider width="50vw">
+                        YEr
+                    </Sider>
                 </Layout>
             :null}
         </>

@@ -19,38 +19,33 @@ const Home = () => {
     const accessToken = useContext(AccessTokenContext)
 
     const [userInfo,setUserInfo] = useState()
-    const [imageArray,setImageArray] = useState([])
-    const [filteredImageArray,setFilteredImageArray] = useState()
+    const [playlistArray,setPlaylistArray] = useState([{name: "Liked Songs",images: [{url: "/likedSongs.jpg"}],id: ""}])
 
     //fetch user info and playlists
     useEffect(() => {
         getUsersNameAndPlaylists(accessToken).then(response => {
             setUserInfo(response[0])
-            setImageArray(injectWithColor(response[1],"playlist"))
-            setFilteredImageArray(injectWithColor(response[1],"playlist"))
-
+            setPlaylistArray(playlistArray.concat(response[1]))
         })
         getTopTracks(accessToken).then(response => console.log(response))
-        getUsersLikedSongs(accessToken).then(response => console.log(response))
+        // getUsersLikedSongs(accessToken).then(response => console.log(response))
     },[])
 
     useEffect(() => {
-        console.log(imageArray)
-    },[imageArray])
-
-
+        console.log(playlistArray)
+    },[playlistArray])
 
     return (
 
         <>
-        {userInfo && imageArray && filteredImageArray ?
+        {userInfo && playlistArray ?
             <Layout className="layout">
                 <Content className="main-page">
-                    <ColorFilter 
+                    {/* <ColorFilter 
                         imageArray={imageArray} 
                         filteredImageArray={filteredImageArray} 
                         setFilteredImageArray={setFilteredImageArray}
-                    />
+                    /> */}
                     <Row className="heading" align={"middle"}>
                         <Col className="heading-picture">
                             <img width={150} src={userInfo.images[0].url} />
@@ -60,7 +55,7 @@ const Home = () => {
                         </Col>
                     </Row>
                     <Row style={{padding: "50px"}}>
-                        {filteredImageArray.map((playlist,index) => {
+                        {playlistArray.map((playlist,index) => {
                             return(
                                 <Playlist key={index} playlistCoverURL={playlist.images[0]?.url} name={playlist.name} id={playlist.id}/>
                             );
