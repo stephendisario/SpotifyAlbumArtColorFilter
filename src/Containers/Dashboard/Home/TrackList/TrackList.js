@@ -24,6 +24,7 @@ const TrackList = (props) => {
 
     useEffect(() => {
         getPlaylistTracks(accessToken,id).then(response => {
+            console.log(response)
             setPlaylistTracks(injectWithColor(response.data.items,"track"))
             setFilteredPlaylistTracks(injectWithColor(response.data.items,"track"))
         })

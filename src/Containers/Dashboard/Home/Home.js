@@ -7,6 +7,9 @@ import { Layout, Button } from 'antd';
 import injectWithColor from "../../../util/ColorThief/ColorTheif"
 import ColorFilter from "../../../util/ColorThief/ColorFilter"
 import getUsersNameAndPlaylists from "../rest/getUsersNameAndPlaylists"
+import getUsersLikedSongs from "../rest/getUsersLikedSongs"
+import getTopTracks from "../rest/getTopTracks"
+import { access } from 'fs';
 
 const Home = () => {
 
@@ -27,7 +30,15 @@ const Home = () => {
             setFilteredImageArray(injectWithColor(response[1],"playlist"))
 
         })
+        getTopTracks(accessToken).then(response => console.log(response))
+        getUsersLikedSongs(accessToken).then(response => console.log(response))
     },[])
+
+    useEffect(() => {
+        console.log(imageArray)
+    },[imageArray])
+
+
 
     return (
 
@@ -35,6 +46,11 @@ const Home = () => {
         {userInfo && imageArray && filteredImageArray ?
             <Layout className="layout">
                 <Content className="main-page">
+                    <ColorFilter 
+                        imageArray={imageArray} 
+                        filteredImageArray={filteredImageArray} 
+                        setFilteredImageArray={setFilteredImageArray}
+                    />
                     <Row className="heading" align={"middle"}>
                         <Col className="heading-picture">
                             <img width={150} src={userInfo.images[0].url} />
@@ -43,11 +59,6 @@ const Home = () => {
                             <Title id="titles">{"Welcome, " + userInfo.display_name.split(" ")[0]}</Title>
                         </Col>
                     </Row>
-                    <ColorFilter 
-                        imageArray={imageArray} 
-                        filteredImageArray={filteredImageArray} 
-                        setFilteredImageArray={setFilteredImageArray}
-                    />
                     <Row style={{padding: "50px"}}>
                         {filteredImageArray.map((playlist,index) => {
                             return(

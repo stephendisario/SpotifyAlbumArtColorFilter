@@ -22,7 +22,7 @@ const ColorFilter = ({imageArray,filteredImageArray,setFilteredImageArray}) => {
     }
 
     return(
-        <Row style={{backgroundColor: selectedColor ? selectedColor.hex : null,paddingLeft:"50px",paddingTop:"20px"}}>
+        <Row style={{backgroundColor: selectedColor ? selectedColor.hex : null,paddingLeft:"50px",paddingBottom:"20px"}}>
             <ChromePicker color={selectedColor} onChange={handleFilterClick} disableAlpha={true}/>
             <Button onClick={handleFilterClick}>Filter to this color</Button>
             <Button onClick={() => {

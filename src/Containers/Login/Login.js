@@ -7,7 +7,7 @@ const Login = () => {
 
   const client_id = '53e53a540f804d048a8f6fc2c653ee0e'; // Your client id
   const redirect_uri = 'http://localhost:3000/dashboard'; // Your redirect uri
-  const scope = 'user-read-private user-read-email playlist-read-private'
+  const scope = 'user-read-private user-read-email playlist-read-private user-library-read user-top-read'
   let url = 'https://accounts.spotify.com/authorize' + '?response_type=token' + 
             '&client_id=' + encodeURIComponent(client_id) + 
             '&scope=' + encodeURIComponent(scope) + 
