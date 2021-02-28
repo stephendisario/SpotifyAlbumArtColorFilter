@@ -26,10 +26,10 @@ const TrackList = (props) => {
     //liked songs is not a spotify playlist, so different API call to get tracks
     useEffect(() => {
         if(name === "Liked Songs") getUsersLikedSongs(accessToken).then(response => {
-            injectWithColor(response,"track").then(resp => {setPlaylistTracks(resp); setFilteredPlaylistTracks(resp)})
+            injectWithColor(response).then(resp => {setPlaylistTracks(resp); setFilteredPlaylistTracks(resp)})
         })
         else getPlaylistTracks(accessToken,id).then(response => {
-            injectWithColor(response.data.items,"track").then(resp => {setPlaylistTracks(resp); setFilteredPlaylistTracks(resp)})
+            injectWithColor(response).then(resp => {setPlaylistTracks(resp); setFilteredPlaylistTracks(resp)})
         })
     },[])
 

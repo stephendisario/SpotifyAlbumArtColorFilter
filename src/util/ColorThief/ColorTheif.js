@@ -17,12 +17,11 @@ const getColor = url => {
     })
 }
 
-//path to images are different for playlist arrays and track arrays
 const injectWithColor = async (imageArray,listType) => {
     let promiseArray = []
     imageArray.map(item => {
         //some tracks dont have album art, so ? to prevent crash
-        promiseArray.push(getColor(listType === "playlist" ? item.images[0]?.url : item.track.album.images[2]?.url))
+        promiseArray.push(getColor(item.track.album.images[2]?.url))
     })
 
     let colorForEachImage = await Promise.all(promiseArray)
