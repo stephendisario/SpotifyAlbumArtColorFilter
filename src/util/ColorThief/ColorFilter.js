@@ -9,22 +9,33 @@ const ColorFilter = ({imageArray,filteredImageArray,setFilteredImageArray}) => {
 
     const handleFilterClick = (color,event) => {
 
+        setSelectedColor(color)
+
+        //gets all tracks in range of selected color
+        //selectedColor: {rgb:{r:int,g:int,b:int}}
+        //image: color[r,g,b]
         const inRange = image => {
-            //some tracks dont have album art
-            if(image.color)
+            //some tracks dont have album art and their color object is an empty array
+            if(image.color.length > 0)
                 return Math.abs(image.color[0] - color.rgb.r) < 20 && Math.abs(image.color[1] - color.rgb.g) < 20 && Math.abs(image.color[2] - color.rgb.b) < 20
             else return false
         }
+
+        //compares tracks within range to each other, sorts tracks by closeness to selected color
+        //a,b track a and track b
+        const compareColorValue = (a, b) => {
+            return (Math.abs(a.color[0] - color.rgb.r) + Math.abs(a.color[1] - color.rgb.g) + Math.abs(a.color[2] - color.rgb.b)) - 
+                    (Math.abs(b.color[0] - color.rgb.r) + Math.abs(b.color[1] - color.rgb.g) + Math.abs(b.color[2] - color.rgb.b))
+        }
         
-        setSelectedColor(color)
-        setFilteredImageArray(imageArray.filter(inRange))
+        let preSortedFilteredArray = imageArray.filter(inRange)
+        setFilteredImageArray(preSortedFilteredArray.sort(compareColorValue))
 
     }
 
     return(
         <Row style={{backgroundColor: selectedColor ? selectedColor.hex : null,paddingLeft:"50px",paddingBottom:"20px"}}>
             <ChromePicker color={selectedColor} onChange={handleFilterClick} disableAlpha={true}/>
-            <Button onClick={handleFilterClick}>Filter to this color</Button>
             <Button onClick={() => {
                 setSelectedColor({rgb:{r:50,g:50,b:50}})
                 setFilteredImageArray(imageArray)

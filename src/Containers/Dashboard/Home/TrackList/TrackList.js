@@ -1,6 +1,6 @@
 import React,{useEffect, useState, useContext} from 'react';
 import {withRouter} from "react-router-dom"
-import {Layout, Typography,Row,Col,Image} from "antd"
+import {Layout, Typography,Row,Col,Image,Popover} from "antd"
 import Track from "./Track"
 import {AccessTokenContext} from "../../DashboardRouter"
 import injectWithColor from "../../../../util/ColorThief/ColorTheif"
@@ -25,46 +25,63 @@ const TrackList = (props) => {
 
     //liked songs is not a spotify playlist, so different API call to get tracks
     useEffect(() => {
-        if(name === "Liked Songs") getUsersLikedSongs(accessToken).then(response => setPlaylistTracks(injectWithColor(response,"track")))
-        else getPlaylistTracks(accessToken,id).then(response => setPlaylistTracks(injectWithColor(response.data.items,"track")))
+        if(name === "Liked Songs") getUsersLikedSongs(accessToken).then(response => {
+            injectWithColor(response,"track").then(resp => {setPlaylistTracks(resp); setFilteredPlaylistTracks(resp)})
+        })
+        else getPlaylistTracks(accessToken,id).then(response => {
+            injectWithColor(response.data.items,"track").then(resp => {setPlaylistTracks(resp); setFilteredPlaylistTracks(resp)})
+        })
     },[])
 
     useEffect(() => {
-        if(playlistTracks) 
-            setFilteredPlaylistTracks(playlistTracks)
-    },[playlistTracks])
+        console.log(filteredPlaylistTracks)
+    },[filteredPlaylistTracks])
 
     return (
         <>
-            {playlistTracks && filteredPlaylistTracks? 
-                <Layout className="layout">
-                    <Content className="main-page">
-                        <ColorFilter 
-                            imageArray={playlistTracks}
-                            filteredImageArray={filteredPlaylistTracks}
-                            setFilteredImageArray={setFilteredPlaylistTracks}
-                        />
-                        <Row className="heading" align={"middle"}>
-                            <Col className="heading-picture">
-                                <Image width={150} src={playlistCoverURL} />
-                            </Col>
-                            <Col>
-                                <Title id="titles">{name}</Title>
-                            </Col>
-                        </Row>
-                            {filteredPlaylistTracks.map((track,index) => {
-                                return(
-                                    <Row key={index} className="track" align={"middle"}> 
-                                        <Track albumCoverURL={track.track.album.images[2]?.url} name={track.track.name}/>
-                                    </Row>
-                                );
-                            })}
-                    </Content>
-                    <Sider width="50vw">
-                        YEr
-                    </Sider>
-                </Layout>
-            :null}
+            {filteredPlaylistTracks ? 
+            <Layout className="main-page">
+                {/* handle empty arrays */}
+                <Content className="main-page">
+                    <ColorFilter 
+                        imageArray={playlistTracks}
+                        filteredImageArray={filteredPlaylistTracks}
+                        setFilteredImageArray={setFilteredPlaylistTracks}
+                    />
+                    <Row className="heading" align={"middle"}>
+                        <Col className="heading-picture">
+                            <Image width={150} src={playlistCoverURL} />
+                        </Col>
+                        <Col>
+                            <Title id="titles">{name}</Title>
+                        </Col>
+                    </Row>
+                </Content>
+                <Sider width="50vw" className="main-page">
+                    {filteredPlaylistTracks && filteredPlaylistTracks.map((track,index) => {
+                        const content = (
+                            <div>
+                                <p>{track.track.artists[0].name}</p>
+                            </div>
+                            )
+
+                        const blackOrWhiteText = track.color[0] + track.color[1] + track.color[2]
+
+                        return(
+                            <Popover 
+                                key={index} 
+                                overlayClassName={blackOrWhiteText < 384 ? "popover-white-text" : null} 
+                                color={`rgb(${track.color[0]},${track.color[1]},${track.color[2]})`} 
+                                content={content} 
+                                title={track.track.name} 
+                                trigger="hover">
+                                <Image  src={track.track.album.images[2]?.url} preview={false}/>
+                            </Popover>
+                        );
+                    })}                    
+                </Sider>
+            </Layout>
+            : null}
         </>
     );
 }

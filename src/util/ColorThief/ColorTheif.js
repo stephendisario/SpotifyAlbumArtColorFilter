@@ -3,7 +3,7 @@ import ColorThief from "colorthief"
 const getColor = url => {
     return new Promise((resolve,reject) => {
         if (!url)
-            reject()
+            resolve([])
         
         let image = new Image();
         image.src = url;
@@ -11,21 +11,23 @@ const getColor = url => {
 
         image.onload = async () => {
             const colorThief = new ColorThief();
-            const color = colorThief.getColor(image)
+            const color = colorThief.getColor(image,1)
             resolve(color)
         }
     })
 }
 
 //path to images are different for playlist arrays and track arrays
-const injectWithColor = (imageArray,listType) => {
+const injectWithColor = async (imageArray,listType) => {
+    let promiseArray = []
     imageArray.map(item => {
         //some tracks dont have album art, so ? to prevent crash
-        getColor(listType === "playlist" ? item.images[0]?.url : item.track.album.images[2]?.url)
-            .then(color => item.color = color)
+        promiseArray.push(getColor(listType === "playlist" ? item.images[0]?.url : item.track.album.images[2]?.url))
     })
 
-    return imageArray
+    let colorForEachImage = await Promise.all(promiseArray)
+    return await imageArray.map((obj,index)=> ({ ...obj, color: colorForEachImage[index] }))
+
 }
 
 export default injectWithColor

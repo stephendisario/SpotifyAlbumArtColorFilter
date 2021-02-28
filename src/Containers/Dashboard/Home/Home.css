@@ -1,5 +1,5 @@
 .main-page {
-    background-image: linear-gradient(rgb(50, 50, 50), rgb(0, 0, 0));
+    background-image: linear-gradient(rgb(50, 50, 50), rgb(0, 0, 0)) !important;
 }
 
 .heading {
@@ -17,5 +17,13 @@
 }
 
 #titles {
+    color: white;
+}
+
+.popover-white-text .ant-popover-title{
+    color: white;
+}
+
+.popover-white-text .ant-popover-inner-content{
     color: white;
 }

@@ -1,16 +1,23 @@
 import React,{useEffect, useState} from 'react';
-import {Image, Col, Row} from "antd"
+import {Image, Popover} from "antd"
 import { Redirect,withRouter } from 'react-router-dom';
 
 const Track = (props) => {
 
+  useEffect(() => {
+    console.log("track",props.color)
+  })
+
+  const content = (
+    <div>
+      <p>{props.artist}</p>
+    </div>
+  )
+
   return (
-    <>
-        <Image  src={props.albumCoverURL} preview={false} />
-        <h3 style={{marginLeft:"20px",color:"white"}}>{props.name}</h3>
-    </>
-
-
+    <Popover color={props.color ? `rgb(${props.color[0]},${props.color[1]},${props.color[2]})`: "white"} content={content} title={props.name} trigger="hover">
+      <Image  src={props.albumCoverURL} preview={false}/>
+    </Popover>
   );
 }
 

@@ -39,7 +39,7 @@ const Home = () => {
 
         <>
         {userInfo && playlistArray ?
-            <Layout className="layout">
+            <Layout className="main-page">
                 <Content className="main-page">
                     {/* <ColorFilter 
                         imageArray={imageArray} 
