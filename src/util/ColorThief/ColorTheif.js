@@ -17,7 +17,7 @@ const getColor = url => {
     })
 }
 
-const injectWithColor = async (imageArray,listType) => {
+const injectWithColor = async (imageArray) => {
     let promiseArray = []
     imageArray.map(item => {
         //some tracks dont have album art, so ? to prevent crash

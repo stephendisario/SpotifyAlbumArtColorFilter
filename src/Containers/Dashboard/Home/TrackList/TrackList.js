@@ -33,10 +33,6 @@ const TrackList = (props) => {
         })
     },[])
 
-    useEffect(() => {
-        console.log(filteredPlaylistTracks)
-    },[filteredPlaylistTracks])
-
     return (
         <>
             {filteredPlaylistTracks ? 
@@ -58,6 +54,8 @@ const TrackList = (props) => {
                     </Row>
                 </Content>
                 <Sider width="50vw" className="main-page">
+                    {/* Requred for images to not have whitespace underneath them */}
+                    <div style={{fontSize:"0"}}>
                     {filteredPlaylistTracks && filteredPlaylistTracks.map((track,index) => {
                         const content = (
                             <div>
@@ -75,10 +73,11 @@ const TrackList = (props) => {
                                 content={content} 
                                 title={track.track.name} 
                                 trigger="hover">
-                                <Image  src={track.track.album.images[2]?.url} preview={false}/>
+                                <Image src={track.track.album.images[2]?.url} preview={false}/>
                             </Popover>
                         );
-                    })}                    
+                    })}      
+                    </div>              
                 </Sider>
             </Layout>
             : null}

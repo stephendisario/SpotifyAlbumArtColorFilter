@@ -27,8 +27,8 @@ const Navbar = (props) => {
               <Menu.Item key="home" id="navbar-home" style={currentKey === "home" ? selectedMenuItemStyle : {}}>
                 Home
               </Menu.Item>
-              <Menu.Item key="collage-creator" id="navbar-collage" style={currentKey === "collage-creator" ? selectedMenuItemStyle : {}}>
-                Collage Creator
+              <Menu.Item key="collage" id="navbar-collage" style={currentKey === "collage" ? selectedMenuItemStyle : {}}>
+                Collage
               </Menu.Item>
             </Menu>
         </Header>      
