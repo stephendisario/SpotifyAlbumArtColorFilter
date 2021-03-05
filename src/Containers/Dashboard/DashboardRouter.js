@@ -8,7 +8,7 @@ import Collage from "./Collage/Collage"
 
 const DashboardRouter = () => {
   //this access token is needed in every axios call and obtainable by all children via useContext
-  const [accessToken,setAccessToken] = useState(getHashParams().access_token)
+  const accessToken = getHashParams().access_token
 
   return (
     <>
