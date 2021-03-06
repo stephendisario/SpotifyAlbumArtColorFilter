@@ -33,6 +33,10 @@ const TrackList = (props) => {
         })
     },[])
 
+    useEffect(() => {
+        console.log(playlistTracks)
+    },[playlistTracks])
+
     return (
         <>
             {filteredPlaylistTracks ? 

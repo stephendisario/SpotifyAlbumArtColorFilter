@@ -21,8 +21,8 @@ const Collage = () => {
         let likedSongsWithHsl = likedSongsWithRgb.filter(track => {
             let newTrack = track
             newTrack.color = rgbToHsl(track.color)
-            // if(newTrack.color[1] >= 50 && (newTrack.color[2] > 25 && newTrack.color[2] < 75))
-            return newTrack
+            if(newTrack.color[1] >= 50 && (newTrack.color[2] > 25 && newTrack.color[2] < 75))
+                return newTrack
         })
         let sortedByColor = likedSongsWithHsl.sort((track1,track2) => {
             return track1.color[0] - track2.color[0]

@@ -27,7 +27,7 @@ const Home = () => {
             setUserInfo(response[0])
             setPlaylistArray(playlistArray.concat(response[1]))
         })
-        getTopTracks(accessToken).then(response => console.log(response))
+        // getTopTracks(accessToken).then(response => console.log(response))
         // getUsersLikedSongs(accessToken).then(response => console.log(response))
     },[])
 
@@ -48,7 +48,7 @@ const Home = () => {
                     /> */}
                     <Row className="heading" align={"middle"}>
                         <Col className="heading-picture">
-                            <img width={150} src={userInfo.images[0].url} />
+                            <img width={150} src={userInfo.images[0] ? userInfo.images[0].url : null} alt={"ur a bot"}/>
                         </Col>
                         <Col>
                             <Title id="titles">{"Welcome, " + userInfo.display_name.split(" ")[0]}</Title>
