@@ -1,5 +1,7 @@
 .main-page {
     background-image: linear-gradient(rgb(50, 50, 50), rgb(0, 0, 0)) !important;
+    height:100vh;
+    overflow:auto;
 }
 
 .heading {
